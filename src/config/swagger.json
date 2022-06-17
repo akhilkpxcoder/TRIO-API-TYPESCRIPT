@@ -1,0 +1,207 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+      "version": "1.0.0",
+      "title": "Seans-TypeScript-NodeJS-CRUD-REST-API-Boilerplate",
+      "description": "A minimal and easy to follow example of what you need to create a CRUD style API in NodeJs using TypeScript",
+      "license": {
+          "name": "MIT",
+          "url": "https://opensource.org/licenses/MIT"
+      }
+  },
+  "servers": [
+    {
+        "url": "/",
+        "description": "Local Dev, or from Heroku"
+    },
+    {
+        "url": "/api/",
+        "description": "With docker-compose and nginx proxy"
+    }
+],
+"tags": [
+    {
+        "name": "posts",
+        "description": "API for posts in the system"
+    }
+],
+  "paths": {
+    "/posts": {
+      "get": {
+          "tags": [
+              "posts"
+          ],
+          "summary": "Get all posts in system",
+          "responses": {
+              "200": {
+                  "description": "OK"
+              }
+          }
+      },
+      "post": {
+          "tags": [
+              "posts"
+          ],
+          "summary": "Create a new post in system",
+          "requestBody": {
+              "description": "post Object",
+              "required": true,
+              "content": {
+                  "applipostion/json": {
+                      "schema": {
+                          "$ref": "#/definitions/post"
+                      }
+                  }
+              }
+          },
+          "responses": {
+              "200": {
+                  "description": "OK"
+              },
+              "400": {
+                  "description": "Failed. Bad post data."
+              }
+          }
+      }
+  },
+  "/posts/{id}": {
+      "parameters": [
+          {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "ID of the post that we want to match",
+              "schema": {
+                  "$ref": "#/definitions/post"
+              }
+          }
+      ],
+      "get": {
+          "tags": [
+              "posts"
+          ],
+          "summary": "Get post with given ID",
+          "parameters": [
+              {
+                  "in": "path",
+                  "name": "id",
+                  "required": true,
+                  "description": "post with id",
+                  "schema": {
+                      "$ref": "#/definitions/id"
+                  }
+              }
+          ],
+          "responses": {
+              "200": {
+                  "description": "OK"
+              },
+              "404": {
+                  "description": "Failed. post not found."
+              }
+          }
+      },
+      "put": {
+          "summary": "Update post with given ID",
+          "tags": [
+              "posts"
+          ],
+          "requestBody": {
+              "description": "post Object",
+              "required": true,
+              "content": {
+                  "applipostion/json": {
+                      "schema": {
+                          "$ref": "#/definitions/post"
+                      }
+                  }
+              }
+          },
+          "parameters": [
+              {
+                  "in": "path",
+                  "name": "id",
+                  "required": true,
+                  "description": "post with new values of properties",
+                  "schema": {
+                      "$ref": "#/definitions/id"
+                  }
+              }
+          ],
+          "responses": {
+              "200": {
+                  "description": "OK"
+              },
+              "400": {
+                  "description": "Failed. Bad post data."
+              },
+              "404": {
+                  "description": "Failed. post not found."
+              }
+          }
+      },
+      "delete": {
+          "summary": "Delete post with given ID",
+          "tags": [
+              "posts"
+          ],
+          "parameters": [
+              {
+                  "in": "path",
+                  "name": "id",
+                  "required": true,
+                  "description": "Delete post with id",
+                  "schema": {
+                      "$ref": "#/definitions/id"
+                  }
+              }
+          ],
+          "responses": {
+              "200": {
+                  "description": "OK"
+              },
+              "404": {
+                  "description": "Failed. post not found."
+              }
+          }
+      }
+  }
+},
+"definitions": {
+  "id": {
+      "properties": {
+          "uuid": {
+              "type": "string"
+          }
+      }
+  },
+  "post": {
+      "type": "object",
+      "properties": {
+          "genus": {
+              "type": "string"
+          },
+          "name": {
+              "type": "string"
+          },
+          "isHungry": {
+              "type": "boolean"
+          },
+          "lastFedDate": {
+              "type": "string"
+          }
+      }
+  },
+  "posts": {
+      "type": "object",
+      "properties": {
+          "posts": {
+              "type": "object",
+              "additionalProperties": {
+                  "$ref": "#/definitions/post"
+              }
+          }
+      }
+  }
+  }
+}
